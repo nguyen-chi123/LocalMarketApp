@@ -1,6 +1,6 @@
 # LocalMarketApp
 
-**run project:**
+**install packages:**
 
 npm i
 
