@@ -1,8 +1,9 @@
 # LocalMarketApp
 
-run project:
+**run project:**
 
 npm i
 
-*run with android devices:*
+**run with android devices:**
+
 npx react-antive run-android
