@@ -40,10 +40,11 @@ const SigUp = ({navigation}) => {
       })
       const data = await res.json();
       if (!data.success) {
+        console.log(data)
         return Alert.alert(
-          "Xảy ra lỗi",
-          "" + data.message,
-          [{text: "Cancel"}]
+          "Số điện thoại đã tồn tại",
+          "",
+          [{text: "Ok"}]
         )
       }
       return navigation.navigate("SigUpConfirm", {phone: phone, pass: pass})

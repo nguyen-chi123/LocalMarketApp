@@ -5,7 +5,8 @@ const icon = "#999"
 const blur = "#DDF5F4"
 const textBlur = "#777"
 const tomato = 'tomato'
-const border = "#bbb"
+const border = "#ccc"
+const price = "#f27b2f"
 
 const color = {
   green,
@@ -15,7 +16,8 @@ const color = {
   blur,
   textBlur,
   tomato,
-  border
+  border,
+  price
 }
 
 export default color

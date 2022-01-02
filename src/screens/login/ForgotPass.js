@@ -5,6 +5,8 @@ import {ButtonAllGreen, commonStyles} from "../../components";
 import {SigUpConfirm} from "./SigUp";
 
 const ForgotPass = ({navigation}) => {
+
+
   return (
     <View style={commonStyles.container}>
       <LogInFast />

@@ -1,11 +1,11 @@
 import React from "react";
-import {FlatList, View} from "react-native";
-
-import ShopProduct from "./CommonOrder"
+import {FlatList, Text, View} from "react-native";
 import styles from "../Cart/Styles";
 
-const Order = () => {
-  const orders = [
+import ShopProduct from "./CommonOrder"
+
+const WaitConfirm = ({navigation}) => {
+  const ordersWait = [
     {
       id: 1,
       shop_name: "Nhà Bí Bo",
@@ -57,13 +57,13 @@ const Order = () => {
   ];
   const _renderOrders = ({item}) => (
     <View style={{marginTop: 8}}>
-      <ShopProduct shopProductCart={item} status={DELIVERY}/>
+      <ShopProduct shopProductCart={item} status={WAITING} navigation={navigation}/>
     </View>
   )
   return(
     <View style={styles.container}>
       <FlatList style={{height: "100%", paddingLeft: 8, paddingRight: 8,}}
-                data={orders}
+                data={ordersWait}
                 renderItem={_renderOrders}
                 keyExtractor={item => item.id}
                 showsVerticalScrollIndicator={false}
@@ -73,4 +73,4 @@ const Order = () => {
   );
 }
 
-export default Order
+export default WaitConfirm;

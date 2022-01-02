@@ -33,7 +33,7 @@ export default class FbImages extends React.Component {
     return(
       <View style={styles.row}>
         <TouchableOpacity style={[styles.imageContent, styles.imageContent1]} onPress={() => {this.clickEventListener()}}>
-          <Image style={styles.image} source={images[0]}/>
+          <Image style={styles.image} source={{uri: images[0]}}/>
         </TouchableOpacity>
       </View>
     );
@@ -47,10 +47,10 @@ export default class FbImages extends React.Component {
     return(
       <View style={styles.row}>
         <TouchableOpacity style={[styles.imageContent, styles.imageContent2]} onPress={() => {this.clickEventListener()}}>
-          <Image style={styles.image} source={conditionalRender ? images[1] : images[0]}/>
+          <Image style={styles.image} source={{uri: conditionalRender ? images[1] : images[0]}}/>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.imageContent, styles.imageContent2]} onPress={() => {this.clickEventListener()}}>
-          <Image style={styles.image} source={conditionalRender ? images[2] : images[1]}/>
+          <Image style={styles.image} source={{uri: conditionalRender ? images[2] : images[1]}}/>
         </TouchableOpacity>
       </View>
     );
@@ -65,10 +65,10 @@ export default class FbImages extends React.Component {
     return(
       <View style={styles.row}>
         <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => {this.clickEventListener()}}>
-          <Image style={styles.image} source={conditionalRender ? images[1] : images[2]}/>
+          <Image style={styles.image} source={{uri: conditionalRender ? "data:image/jpg;base64,"+images[1] : "data:image/jpg;base64,"+images[2]}}/>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => {this.clickEventListener()}}>
-          <Image style={styles.image} source={conditionalRender ? images[2] : images[3]}/>
+          <Image style={styles.image} source={{uri: conditionalRender ? images[2] : images[3]}}/>
         </TouchableOpacity>
         {overlay}
       </View>
@@ -79,7 +79,7 @@ export default class FbImages extends React.Component {
     const {images} = this.state;
     return(
       <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => {this.clickEventListener()}}>
-        <Image style={styles.image} source={images[images.length - 1]}/>
+        <Image style={styles.image} source={{uri: images[images.length - 1]}}/>
       </TouchableOpacity>
     );
   }
@@ -91,7 +91,7 @@ export default class FbImages extends React.Component {
     const conditionalRender = images.length == 4 || images.length > +countFrom && +countFrom == 4;
     return(
       <TouchableOpacity style={[styles.imageContent, styles.imageContent3]} onPress={() => {this.clickEventListener()}}>
-        <Image style={styles.image} source={conditionalRender ? images[3] : images[4]}/>
+        <Image style={styles.image} source={{uri: conditionalRender ? images[3] : images[4]}}/>
         <View style={styles.overlayContent}>
           <View>
             <Text style={styles.count}>+{extra}</Text>

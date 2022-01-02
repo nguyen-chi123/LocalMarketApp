@@ -3,13 +3,13 @@ import {View, Pressable, StyleSheet, Text} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import color from "../../assets/color";
 
-const NotificationItem = () => {
+const NotificationItem = ({notification, navigation}) => {
   return(
       <Pressable style={styles.notificationItem}>
         <Icon name={"bell"} size={20} color={color.green} style={styles.iconN}/>
         <View style={styles.content}>
-          <Text style={styles.title}>Tên thông báo</Text>
-          <Text style={styles.desc}>Cô giáo ới mẹ con em. Rồi cô và mẹ nói chuyện. Mẹ nói với em: "Con ở đây đến trưa, bố hoặc mẹ sẽ đón con về". Em túm lấy áo mẹ như không muốn rời xa</Text>
+          <Text style={styles.title}>{notification.title}</Text>
+          <Text style={styles.desc}>{notification.message}</Text>
         </View>
       </Pressable>
   );

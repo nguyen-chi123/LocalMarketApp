@@ -4,9 +4,9 @@ import color from "../../assets/color";
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    height: "84%",
     backgroundColor: "#eee",
-    flex : 1, flexGrow :1
+    paddingLeft: 8, paddingRight: 8
   },
   // style for header bar
   iconHeader: {
@@ -50,6 +50,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"
+  },
+  product: {
+    backgroundColor: "#e4f3ea",
+    color: color.text,
+    borderRadius: 5,
+    fontSize: 16,
+    padding: 4,
+    paddingLeft: 8,
+    marginRight: 5,
+    textAlign: "center"
   }
 });
 

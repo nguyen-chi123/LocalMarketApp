@@ -37,27 +37,27 @@ const LogIn = ({navigation}) => {
 
   const _userLogIn = async () => {
     try {
-      // const res = await fetch(BASE_URL + '/login', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({
-      //     phone_number: phone,
-      //     password: pass
-      //   })
-      // })
-      // const data = await res.json()
+      const res = await fetch(BASE_URL + '/login', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          phone_number: phone,
+          password: pass
+        })
+      })
+      const data = await res.json()
       // console.log(data)
-      // if (!data.success) {
-      //   return Alert.alert(
-      //     "Không thành công",
-      //     "SĐT hoặc mật khẩu không chính xác",
-      //     [{title: "Cancel"}]
-      //   )
-      // }
-      // await AsyncStorage.setItem(STORAGE_KEY, data["access_token"])
+      if (!data.success) {
+        return Alert.alert(
+          "Không thành công",
+          "SĐT hoặc mật khẩu không chính xác",
+          [{title: "Cancel"}]
+        )
+      }
+      await AsyncStorage.setItem(STORAGE_KEY, data["access_token"])
       return navigation.replace("HomeScreen")
     } catch (e) {
       console.log("error in _userLogIn", e)

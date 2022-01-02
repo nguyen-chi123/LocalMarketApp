@@ -1,52 +1,23 @@
-import React from "react";
-import {Text, View, ScrollView, FlatList, Image, Pressable, AsyncStorage, SafeAreaView} from "react-native";
+import React, {useCallback, useEffect, useState} from "react";
+import {Text, View, FlatList, Image, Pressable, AsyncStorage} from "react-native";
 import styles from "./Styles"
 import ScheduleItem from "../../components/ScheduleItem";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import color from "../../assets/color";
+import {useFocusEffect, useIsFocused} from "@react-navigation/native";
 
-const CategoryItem = ({title, icon}) => (
-  <Pressable style={styles.categoryItem}>
+const CategoryItem = ({title, icon, onPressCate}) => (
+  <Pressable style={styles.categoryItem} onPress={onPressCate}>
     <Icon name={icon} size={30} color={color.green} style={{textAlign: "center"}}/>
     <Text style={styles.textCategory}>{title}</Text>
   </Pressable>
 );
 
-const ListCategory = () => {
-  const categories = [
-      {
-        id: 1,
-        icon: "carrot",
-        title: "Thực phẩm"
-      },
-      {
-        id: 2,
-        icon: "bread-slice",
-        title: "Thời trang"
-      },
-      {
-        id: 3,
-        icon: "book",
-        title: "Sách"
-      },
-      {
-        id: 4,
-        icon: "charging-station",
-        title: "Điện tử"
-      },
-      {
-        id: 5,
-        icon: "hand-holding-medical",
-        title: "Đồ cũ"
-      },
-      {
-        id: 6,
-        icon: "house-user",
-        title: "Nhà làm"
-      }
-    ];
+const ListCategory = ({navigation, categories}) => {
   const renderCategoryItem = ({ item }) => (
-    <CategoryItem title={item.title} icon={item.icon}/>
+    <CategoryItem title={item.name} icon={item.icon} onPressCate={() => {
+      return navigation.push("SearchPage", {category_id: item.id})
+    }}/>
   );
 
   return (
@@ -84,174 +55,69 @@ const Home = ({navigation}) => {
       ),
     });
   }, [navigation]);
-  const schedules = [
-    {
-      id: 1,
-      name: "Bán thứ 2",
-      shop_name: "Pet Shop",
-      image: require("../../assets/img/shop.png"),
-      description: "Chào cả nhà, hôm nay mình lại mở gian hàng quê nhỏ, mong mọi người ủng hộ ",
-      delivery_deadline_time: "19h30",
-      phone_number: "0373607630",
-      products: [
-        {
-          id: 1,
-          name: "Sữa chua",
-          category: "Thực phẩm",
-          unit: "hộp",
-          cost_per_unit: 10000,
-          description: "Sinh nhật năm nay, em đã nhận được một món quà rất đặc biệt từ bố mẹ. Đó là một chú chó vô cùng đáng yêu.",
-          image:require("../../assets/img/shop.png")
-        },
-        {
-          id: 2,
-          name: "Trứng gà",
-          category: "Thực phẩm",
-          unit: "chục",
-          const_per_unit: 40000,
-          description: "Trứng quê, bao sạch, bao ngon, bao bổ, mại dô",
-          image: require("../../assets/img/shop.png")
-        },
-        {
-          id: 3,
-          name: "Thịt gà",
-          category: "Thực phẩm",
-          unit: "kg",
-          const_per_unit: 180000,
-          description: "Gà ta dai ngon nhức lách, tặng kèm muối chanh",
-          image: require("../../assets/img/shop.png")
-        },
-      ]
-    },
-    {
-      id: 2,
-      name: "Bán chủ nhật",
-      shop_name: "Pet Shop",
-      image: require("../../assets/img/shop.png"),
-      description: "Chào cả nhà, hôm nay mình lại mở gian hàng quê nhỏ, mong mọi người ủng hộ",
-      delivery_deadline_time: "19h30",
-      phone_number: "0373607630",
-      products: [
-        {
-          id: 4,
-          name: "Sữa chua",
-          category: "Thực phẩm",
-          unit: "hộp",
-          cost_per_unit: 10000,
-          description: "Sinh nhật năm nay, em đã nhận được một món quà rất đặc biệt từ bố mẹ. Đó là một chú chó vô cùng đáng yêu.",
-          image: require("../../assets/img/shop.png")
-        },
-        {
-          id: 5,
-          name: "Trứng gà",
-          category: "Thực phẩm",
-          unit: "chục",
-          const_per_unit: 40000,
-          description: "Trứng quê, bao sạch, bao ngon, bao bổ, mại dô",
-          image: require("../../assets/img/shop.png")
-        },
-        {
-          id: 6,
-          name: "Thịt gà",
-          category: "Thực phẩm",
-          unit: "kg",
-          const_per_unit: 180000,
-          description: "Gà ta dai ngon nhức lách, tặng kèm muối chanh",
-          image: require("../../assets/img/shop.png")
-        },
-      ]
-    },
-    {
-      id: 3,
-      name: "Bán chủ nhật",
-      shop_name: "Pet Shop",
-      image: require("../../assets/img/shop.png"),
-      description: "Chào cả nhà, hôm nay mình lại mở gian hàng quê nhỏ, mong mọi người ủng hộ",
-      delivery_deadline_time: "19h30",
-      phone_number: "0373607630",
-      products: [
-        {
-          id: 7,
-          name: "Sữa chua",
-          category: "Thực phẩm",
-          unit: "hộp",
-          cost_per_unit: 10000,
-          description: "Sinh nhật năm nay, em đã nhận được một món quà rất đặc biệt từ bố mẹ. Đó là một chú chó vô cùng đáng yêu.",
-          image: require("../../assets/img/shop.png")
-        },
-        {
-          id: 8,
-          name: "Trứng gà",
-          category: "Thực phẩm",
-          unit: "chục",
-          const_per_unit: 40000,
-          description: "Trứng quê, bao sạch, bao ngon, bao bổ, mại dô",
-          image: require("../../assets/img/shop.png")
-        },
-        {
-          id: 9,
-          name: "Thịt gà",
-          category: "Thực phẩm",
-          unit: "kg",
-          const_per_unit: 180000,
-          description: "Gà ta dai ngon nhức lách, tặng kèm muối chanh",
-          image: require("../../assets/img/shop.png")
-        },
-      ]
-    },
-    {
-      id: 4,
-      name: "Bán chủ nhật",
-      shop_name: "Pet Shop",
-      image: require("../../assets/img/shop.png"),
-      description: "Chào cả nhà, hôm nay mình lại mở gian hàng quê nhỏ, mong mọi người ủng hộ",
-      delivery_deadline_time: "19h30",
-      phone_number: "0373607630",
-      products: [
-        {
-          id: 10,
-          name: "Sữa chua",
-          category: "Thực phẩm",
-          unit: "hộp",
-          cost_per_unit: 10000,
-          description: "Sinh nhật năm nay, em đã nhận được một món quà rất đặc biệt từ bố mẹ. Đó là một chú chó vô cùng đáng yêu.",
-          image: require("../../assets/img/shop.png")
-        },
-        {
-          id: 11,
-          name: "Trứng gà",
-          category: "Thực phẩm",
-          unit: "chục",
-          const_per_unit: 40000,
-          description: "Trứng quê, bao sạch, bao ngon, bao bổ, mại dô",
-          image: require("../../assets/img/shop.png")
-        },
-        {
-          id: 12,
-          name: "Thịt gà",
-          category: "Thực phẩm",
-          unit: "kg",
-          const_per_unit: 180000,
-          description: "Gà ta dai ngon nhức lách, tặng kèm muối chanh",
-          image: require("../../assets/img/shop.png")
-        },
-      ]
-    }
-  ]
-  const _renderScheduleItem = ({item}) => (
-    <View style={{marginTop: 12}}><ScheduleItem navigation={navigation} schedule={item}/></View>
-  )
-  return (
-    <View style={styles.container}>
-      <ListCategory/>
-      <FlatList
-        data={schedules}
-        renderItem={_renderScheduleItem}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
-        ListFooterComponent={<View style={{height: 12}}/>}
-      />
 
+  const [categories, setCategories] = useState([]);
+  const [schedules, setSchedules] = useState([]);
+  const getDataHome = async () => {
+    try {
+      const TOKEN = await AsyncStorage.getItem(STORAGE_KEY);
+      const resCategories = await fetch(BASE_URL + "/category", {
+        method: 'GET',
+        headers: {'Authorization': 'Bearer ' + TOKEN},
+      });
+      const resSchedules = await fetch(BASE_URL + "/schedule", {
+        method: "GET",
+        headers: {'Authorization': 'Bearer ' + TOKEN},
+      });
+      const resC = await resCategories.json();
+      const resS = await resSchedules.json();
+      if (!resC.success) return;
+      if (!resS.success) return;
+      setCategories(resC.data);
+      for (let schedule of resS.data) {
+        const proNames = [];
+        const proImages = [];
+        if (schedule.products){
+          for (let p of schedule.products) {
+            proNames.push(<Text style={styles.product}>{p.name}</Text>);
+            proImages.push(`data:image/;base64,${p.image}`);
+          }
+        }
+        schedule["product_names"] = proNames;
+        schedule["product_Images"] = proImages;
+      }
+      setSchedules(resS.data);
+    } catch (e) {
+      console.log("getDataHome: ", e)
+    }
+  }
+
+  useFocusEffect(() => {
+    getDataHome();
+  });
+  const _renderScheduleItem = ({item}) => {
+    return (
+      <View style={{marginTop: 12}}>
+        <ScheduleItem navigation={navigation} schedule={item} />
+      </View>
+    );
+  }
+  console.log(categories)
+  console.log(schedules)
+  return (
+    <View>
+      <ListCategory navigation={navigation} categories={categories}/>
+      <View style={styles.container}>
+        {schedules ? (
+          <FlatList
+            data={schedules}
+            renderItem={_renderScheduleItem}
+            keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}
+            ListFooterComponent={<View style={{height: 12}}/>}
+          />
+        ) : null}
+      </View>
     </View>
   )
 }
