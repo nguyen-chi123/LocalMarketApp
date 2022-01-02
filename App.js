@@ -37,7 +37,6 @@ import CreateSchedule from "./src/screens/MyShop/ScheduleManage/CreateSchedule";
 import CreateProduct from "./src/screens/MyShop/ScheduleManage/CreateProduct";
 import EditSchedule from "./src/screens/MyShop/ScheduleManage/EditSchedule";
 import Profile from "./src/screens/Profile";
-import Select from "./src/components/Select";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -78,7 +77,6 @@ const App: () => Node = () => {
         <Stack.Screen name="CreateProduct" component={CreateProduct} options={{title: "Thêm sản phẩm"}} />
         <Stack.Screen name="EditSchedule" component={EditSchedule} options={{title: "Lịch bán"}} />
         <Stack.Screen name="Profile" component={Profile} options={{title: "Tôi"}} />
-        <Stack.Screen name="Select" component={Select} options={{title: "Test"}} />
 
       </Stack.Navigator>
     </NavigationContainer>

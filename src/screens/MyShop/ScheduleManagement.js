@@ -68,7 +68,14 @@ const ScheduleManagement = ({navigation}) => {
       });
       const data = await res.json()
       console.log(data);
-      if (!data.success) return;
+      if (!data.success) {
+        return Alert.alert("Tạo lịch để bắt đầu bán !", "",
+          [
+            {text: "Cancel"},
+            {text: "Ok", onPress: () => navigation.navigate("CreateSchedule", {schedule: null})},
+          ]
+        )
+      }
       for (const schedule of data.data) {
         let Products = [];
         if (schedule.products) {
@@ -100,7 +107,7 @@ const ScheduleManagement = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.btnAdd} onPress={() => navigation.navigate("CreateSchedule")}>
+      <Pressable style={styles.btnAdd} onPress={() => navigation.navigate("CreateSchedule", {schedule: null})}>
         <Icon name={"plus"} color={"#fff"} size={20}/>
       </Pressable>
       <FlatList

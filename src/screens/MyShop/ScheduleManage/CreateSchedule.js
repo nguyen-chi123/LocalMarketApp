@@ -6,16 +6,17 @@ import color from "../../../assets/color";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import moment from "moment";
 
-const CreateSchedule = ({navigation}) => {
+const CreateSchedule = ({navigation, route}) => {
+  const {schedule} = route.params;
   const [activeFrom, setActiveFrom] = useState(new Date());
   const [activeTo, setActiveTo] = useState(new Date());
   const [shipTime, setShipTime] = useState(new Date());
   const [desc, setDesc] = useState("");
-  const [openS, setOpenS] = useState(false)
-  const [openE, setOpenE] = useState(false)
-  const [openG, setOpenG] = useState(false)
+  const [openS, setOpenS] = useState(false);
+  const [openE, setOpenE] = useState(false);
+  const [openG, setOpenG] = useState(false);
 
-  const _createSchedule = async () => {
+  const _postSchedule = async () => {
     try {
       const TOKEN = await AsyncStorage.getItem(STORAGE_KEY);
       const res = await fetch(BASE_URL + "/schedule", {
@@ -40,7 +41,6 @@ const CreateSchedule = ({navigation}) => {
       console.log("_createSchedule:", e)
     }
   }
-
   return (
     <View style={styles.container}>
       <Text style={styles.textHeader}>Chọn thời gian mở lịch bán</Text>
@@ -112,7 +112,7 @@ const CreateSchedule = ({navigation}) => {
         />
       </View>
       <View style={{paddingTop: 24}}>
-        <ButtonAllGreen title={"Tạo Lịch"} onPress={_createSchedule}/>
+        <ButtonAllGreen title={"Lưu"} onPress={_postSchedule}/>
       </View>
     </View>
   );

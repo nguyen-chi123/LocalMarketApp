@@ -10,9 +10,5 @@ global.STORAGE_KEY = 'id_token';
 global.BASE_URL = 'http://127.0.0.1:8000/api';
 global.WAITING = 'waiting...';
 global.DELIVERY = 'delivery...';
-global.STATUS = {
-  0: "Closed",
-  1: "Active"
-}
 
 AppRegistry.registerComponent(appName, () => App);

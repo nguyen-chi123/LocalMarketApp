@@ -4,13 +4,13 @@ import color from "../../../assets/color";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import ProductItem from "./ProductItem";
 import {useFocusEffect} from "@react-navigation/native";
+import {screensEnabled} from "react-native-screens";
 
 const EditSchedule = ({navigation, route}) => {
   const {schedule} = route.params
-  const [scheduleData, setSchedule] = useState(schedule)
-  const [status, setStatus] = useState(1)
+  const [scheduleData, setSchedule] = useState(schedule);
+  const [status, setStatus] = useState(schedule.status)
   const getScheduleById = async () => {
-    console.log("SCHEDULE_ID: ", schedule.id)
     try {
       const TOKEN = await AsyncStorage.getItem(STORAGE_KEY);
       const res = await fetch(BASE_URL + "/schedule?id=" + schedule.id, {
@@ -23,40 +23,42 @@ const EditSchedule = ({navigation, route}) => {
       console.log(data)
       if (!data.success) return;
       setSchedule(data.data);
-      setStatus(data['data'].status);
+      // setStatus(data['data'].status);
     } catch (e) {
       console.log("getScheduleById:", e)
     }
   }
   useFocusEffect(() => {
     getScheduleById();
-  });
+  }, [schedule]);
 
-  // const _changeStatusSchedule = async () => {
-  //   try {
-  //     const TOKEN = await AsyncStorage.getItem(STORAGE_KEY);
-  //     const res = await fetch(BASE_URL + "/schedule", {
-  //       method: "POST",
-  //       headers: {
-  //         'Accept': 'application/json',
-  //         'Content-Type': 'application/json',
-  //         'Authorization': 'Bearer ' + TOKEN
-  //       },
-  //       body: JSON.stringify({
-  //         id: schedule.id,
-  //         active_from: schedule.active_from,
-  //         active_to: schedule.active_to,
-  //         delivery_deadline_time: schedule.delivery_deadline_time,
-  //         description: schedule.desc
-  //       })
-  //     });
-  //     const data = await res.json();
-  //     if (!data.success) return Alert.alert("", `${data.message}`, [{text: "Ok"}]);
-  //     setStatus(!status);
-  //   } catch (e) {
-  //     console.log("_changeStatusSchedule:", e)
-  //   }
-  // }
+  const _changeStatusSchedule = async () => {
+    try {
+      const TOKEN = await AsyncStorage.getItem(STORAGE_KEY);
+      const res = await fetch(BASE_URL + "/schedule", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + TOKEN
+        },
+        body: JSON.stringify({
+          id: schedule.id,
+          active_from: schedule.active_from,
+          active_to: schedule.active_to,
+          delivery_deadline_time: schedule.delivery_deadline_time,
+          description: schedule.desc,
+          // status:
+        })
+      });
+      const data = await res.json();
+      if (!data.success) return Alert.alert("", `${data.message}`, [{text: "Ok"}]);
+      setStatus(!status);
+      schedule.status = !status;
+    } catch (e) {
+      console.log("_changeStatusSchedule:", e)
+    }
+  }
   const _renderProduct = ({item}) => (
     <View style={{paddingTop: 6}}><ProductItem product={item} /></View>
   )
@@ -64,14 +66,14 @@ const EditSchedule = ({navigation, route}) => {
     <View>
       <View style={styles.scheduleHeader}>
         <View style={styles.titleHeader}>
-          <Pressable>
-            <Text style={{color: (status ? color.green : color.red), fontSize: 16, fontWeight: "bold"}}>{STATUS[schedule.status]}</Text>
+          <Pressable onPress={_changeStatusSchedule}>
+            <Text style={{color: (schedule.status ? color.green : color.red), fontSize: 16, fontWeight: "bold"}}>{schedule.status ? "Active" : "Closed"}</Text>
           </Pressable>
           <View style={{flexDirection: "row"}}>
             <Pressable style={styles.btnAddProduct} onPress={() => navigation.push("CreateProduct", {id: schedule.id})}>
               <Text style={styles.textAddPro}><Icon name={"plus"} /> Sản phẩm</Text>
             </Pressable>
-            <Pressable style={[styles.btnAddProduct,{width: 40, marginLeft: 12}]} onPress={() => navigation.push("")}>
+            <Pressable style={[styles.btnAddProduct,{width: 40, marginLeft: 12}]} onPress={() => navigation.push("CreateSchedule", {schedule: schedule})}>
               <Icon name={"pen"} color={"#fff"} size={16}/>
             </Pressable>
           </View>

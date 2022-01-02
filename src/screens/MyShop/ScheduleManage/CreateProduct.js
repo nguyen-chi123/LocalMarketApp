@@ -6,15 +6,15 @@ import {commonStyles, ButtonAllGreen, Select} from "../../../components";
 import { launchImageLibrary } from 'react-native-image-picker';
 
 const CreateProduct = ({navigation, route}) => {
-  const {id} = route.params
+  const {id, product} = route.params
 
-  const [image, setImage] = useState(null);
-  const [name, setName] = useState(null);
-  const [unit, setUnit] = useState({});
-  const [category, setCategory] = useState({});
-  const [cost, setCost] = useState(null);
-  const [quantity, setQuantity] = useState(null);
-  const [desc, setDesc] = useState(null);
+  const [image, setImage] = product ? useState(product.image) : useState(null);
+  const [name, setName] = product ? useState(product.name) : useState(null);
+  const [unit, setUnit] = product ? useState(product.unit) : useState({});
+  const [category, setCategory] = product ? useState(product.category) : useState({});
+  const [cost, setCost] = product ? useState(product.cost_per_unit) : useState(null);
+  const [quantity, setQuantity] = product ? useState(product.quantity) : useState(null);
+  const [desc, setDesc] = product ? useState(product.description) : useState(null);
   const [categories, setCategories] = useState([]);
   const [units, setUnits] = useState([]);
   const getCategoryUnit = async () => {
