@@ -6,4 +6,4 @@ npm i
 
 **run with android devices:**
 
-npx react-antive run-android
+npx react-native run-android
